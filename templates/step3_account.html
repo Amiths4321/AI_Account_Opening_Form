@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Account Details{% endblock %}
+{% block content %}
+
+<div class="stepper">
+    <span class="step done">1. Upload ID</span>
+    <span class="step done">2. Review Details</span>
+    <span class="step active">3. Account Details</span>
+    <span class="step">4. Confirm</span>
+</div>
+
+<h2>Account Preferences</h2>
+<form method="POST" class="form-card">
+    <label>Account Type</label>
+    <select name="account_type" required>
+        <option value="" disabled {% if not data.account_type %}selected{% endif %}>Select account type</option>
+        <option value="Savings" {% if data.account_type == 'Savings' %}selected{% endif %}>Savings Account</option>
+        <option value="Current" {% if data.account_type == 'Current' %}selected{% endif %}>Current Account</option>
+    </select>
+
+    <label>Initial Deposit (₹)</label>
+    <input type="number" name="initial_deposit" min="500" step="100" value="{{ data.initial_deposit or '' }}" required>
+
+    <label>Nominee Name</label>
+    <input type="text" name="nominee_name" value="{{ data.nominee_name or '' }}" required>
+
+    <label>Nominee Relationship</label>
+    <input type="text" name="nominee_relation" placeholder="e.g. Spouse, Parent, Sibling" value="{{ data.nominee_relation or '' }}" required>
+
+    <div class="form-actions">
+        <a class="btn btn-secondary" href="{{ url_for('step2') }}">&larr; Back</a>
+        <button type="submit" class="btn btn-primary">Next: Review &rarr;</button>
+    </div>
+</form>
+{% endblock %}

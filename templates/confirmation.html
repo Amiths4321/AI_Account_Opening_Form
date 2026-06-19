@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Application Submitted{% endblock %}
+{% block content %}
+<div class="confirmation-card">
+    <h2>✅ Account Opening Application Submitted!</h2>
+    <p>Your application reference number is:</p>
+    <div class="ref-no">{{ ref }}</div>
+    <p>Please save this reference number for future correspondence.</p>
+    <a class="btn btn-primary" href="{{ url_for('home') }}">Back to Home</a>
+</div>
+{% endblock %}

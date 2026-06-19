@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Review & Submit{% endblock %}
+{% block content %}
+
+<div class="stepper">
+    <span class="step done">1. Upload ID</span>
+    <span class="step done">2. Review Details</span>
+    <span class="step done">3. Account Details</span>
+    <span class="step active">4. Confirm</span>
+</div>
+
+<h2>Review Your Application</h2>
+
+<div class="review-card">
+    <h3>Identity</h3>
+    <p><strong>Document:</strong> {{ data.document_type }}</p>
+    <p><strong>Document Number:</strong> {{ data.document_number }}</p>
+    <p><strong>Name:</strong> {{ data.full_name }}</p>
+    <p><strong>DOB:</strong> {{ data.dob }}</p>
+    {% if data.gender %}<p><strong>Gender:</strong> {{ data.gender }}</p>{% endif %}
+    {% if data.father_name %}<p><strong>Father's Name:</strong> {{ data.father_name }}</p>{% endif %}
+    {% if data.address %}<p><strong>Address:</strong> {{ data.address }}</p>{% endif %}
+    <p><strong>Phone:</strong> {{ data.phone }}</p>
+    <p><strong>Email:</strong> {{ data.email }}</p>
+
+    <h3>Account</h3>
+    <p><strong>Account Type:</strong> {{ data.account_type }}</p>
+    <p><strong>Initial Deposit:</strong> ₹{{ data.initial_deposit }}</p>
+    <p><strong>Nominee:</strong> {{ data.nominee_name }} ({{ data.nominee_relation }})</p>
+</div>
+
+<form method="POST">
+    <div class="form-actions">
+        <a class="btn btn-secondary" href="{{ url_for('step3') }}">&larr; Back</a>
+        <button type="submit" class="btn btn-primary">Confirm & Submit Application</button>
+    </div>
+</form>
+{% endblock %}

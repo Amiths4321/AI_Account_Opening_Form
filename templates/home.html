@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Open a Bank Account{% endblock %}
+{% block content %}
+<div class="hero-card">
+    <h1>Open Your Account in Minutes</h1>
+    <p class="hint">Upload a photo of your Aadhaar, PAN, or Driving License — we'll auto-fill your
+    details using AI document scanning, so you don't have to type everything by hand.</p>
+
+    <div class="how-it-works">
+        <div class="hw-step"><span>1</span> Upload your ID</div>
+        <div class="hw-step"><span>2</span> Review auto-filled details</div>
+        <div class="hw-step"><span>3</span> Choose account preferences</div>
+        <div class="hw-step"><span>4</span> Submit application</div>
+    </div>
+
+    <a class="btn btn-primary" href="{{ url_for('step1') }}">Start Application &rarr;</a>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Admin - Applications{% endblock %}
+{% block content %}
+<h2>Account Opening Applications ({{ applications|length }})</h2>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>Reference No</th>
+            <th>Name</th>
+            <th>Document</th>
+            <th>Doc No.</th>
+            <th>Scan Method</th>
+            <th>Account Type</th>
+            <th>Deposit</th>
+            <th>Status</th>
+            <th>Applied On</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in applications %}
+        <tr>
+            <td>{{ a.reference_no }}</td>
+            <td>{{ a.full_name }}</td>
+            <td>{{ a.document_type }}</td>
+            <td>{{ a.document_number }}</td>
+            <td>
+                {% if a.extraction_method == "auto" %}
+                <span class="badge badge-auto">Auto</span>
+                {% else %}
+                <span class="badge badge-manual">Manual</span>
+                {% endif %}
+            </td>
+            <td>{{ a.account_type }}</td>
+            <td>₹{{ "%.0f"|format(a.initial_deposit) }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('update_status', app_id=a.id) }}" class="status-form">
+                    <select name="status" onchange="this.form.submit()">
+                        {% for s in ["Submitted", "Under Review", "Approved", "Rejected"] %}
+                        <option value="{{ s }}" {% if a.status == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </td>
+            <td>{{ a.applied_on.strftime("%d-%b-%Y %H:%M") }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9">No applications yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

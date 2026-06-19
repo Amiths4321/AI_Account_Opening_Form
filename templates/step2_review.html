@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Review Your Details{% endblock %}
+{% block content %}
+
+<div class="stepper">
+    <span class="step done">1. Upload ID</span>
+    <span class="step active">2. Review Details</span>
+    <span class="step">3. Account Details</span>
+    <span class="step">4. Confirm</span>
+</div>
+
+<h2>Review Your Details</h2>
+
+{% if data.extraction_method == "auto" %}
+<p class="badge badge-auto">✓ Auto-filled from your {{ data.document_type }}</p>
+{% else %}
+<p class="badge badge-manual">Auto-scan wasn't able to read your document — please fill these in manually.</p>
+{% endif %}
+
+<form method="POST" class="form-card">
+    <label>Full Name</label>
+    <input type="text" name="full_name" value="{{ data.full_name or '' }}" required>
+
+    <label>Date of Birth</label>
+    <input type="text" name="dob" placeholder="DD/MM/YYYY" value="{{ data.dob or '' }}" required>
+
+    {% if data.document_type == "Aadhaar" %}
+    <label>Gender</label>
+    <select name="gender">
+        <option value="" {% if not data.gender %}selected{% endif %}>Select</option>
+        <option value="Male" {% if data.gender == 'Male' %}selected{% endif %}>Male</option>
+        <option value="Female" {% if data.gender == 'Female' %}selected{% endif %}>Female</option>
+        <option value="Other" {% if data.gender == 'Other' %}selected{% endif %}>Other</option>
+    </select>
+    {% endif %}
+
+    {% if data.document_type == "PAN" %}
+    <label>Father's Name</label>
+    <input type="text" name="father_name" value="{{ data.father_name or '' }}">
+    {% endif %}
+
+    {% if data.document_type in ["Aadhaar", "Driving License"] %}
+    <label>Address</label>
+    <textarea name="address" rows="3">{{ data.address or '' }}</textarea>
+    {% endif %}
+
+    <label>
+        {% if data.document_type == "Aadhaar" %}Aadhaar Number (masked)
+        {% elif data.document_type == "PAN" %}PAN Number
+        {% else %}Driving License Number{% endif %}
+    </label>
+    <input type="text" name="document_number" value="{{ data.document_number or '' }}" required>
+
+    <label>Phone Number</label>
+    <input type="tel" name="phone" pattern="[0-9]{10}" value="{{ data.phone or '' }}" required>
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ data.email or '' }}" required>
+
+    <div class="form-actions">
+        <a class="btn btn-secondary" href="{{ url_for('step1') }}">&larr; Back</a>
+        <button type="submit" class="btn btn-primary">Next: Account Details &rarr;</button>
+    </div>
+</form>
+{% endblock %}
